@@ -287,10 +287,20 @@ Semoga kamu selalu dicintai dengan cara yang kamu pantas dapatkan. 💘`;
         .replaceAll('>','&gt;');
     }
 
+    // ✅ BUGFIX: bersihkan pesan dari baris "Tip:" (biar nggak ikut masuk ke surat/link)
+    function cleanMsg(m){
+      return (m ?? '')
+        .toString()
+        .replace(/^\s*tip\s*:.*$/gmi, '') // hapus baris Tip:
+        .trim();
+    }
+
     function render(){
       const t = to.value.trim() || 'kamu';
       const f = from.value.trim() || 'aku';
-      const m = customMsg.value.trim() || defaultMsg;
+
+      const raw = customMsg.value.trim() || defaultMsg;
+      const m = cleanMsg(raw) || defaultMsg;
 
       toText.textContent = t;
       fromText.textContent = f;
@@ -306,11 +316,14 @@ Semoga kamu selalu dicintai dengan cara yang kamu pantas dapatkan. 💘`;
 
       if (t) to.value = t;
       if (f) from.value = f;
-      if (m) customMsg.value = m;
+      if (m) customMsg.value = cleanMsg(m) || defaultMsg;
 
       render();
 
       if (open === '1') envelope.classList.add('open');
+
+      // kalau link lama kebawa "Tip:", langsung bersihin URL-nya juga
+      saveToURL();
     }
 
     function saveToURL(){
@@ -318,7 +331,10 @@ Semoga kamu selalu dicintai dengan cara yang kamu pantas dapatkan. 💘`;
       const url = new URL(location.href);
       url.searchParams.set('to', to.value.trim() || 'kamu');
       url.searchParams.set('from', from.value.trim() || 'aku');
-      url.searchParams.set('msg', customMsg.value.trim() || defaultMsg);
+
+      const raw = customMsg.value.trim() || defaultMsg;
+      url.searchParams.set('msg', cleanMsg(raw) || defaultMsg);
+
       url.searchParams.set('open', envelope.classList.contains('open') ? '1' : '0');
       history.replaceState({}, '', url);
     }
