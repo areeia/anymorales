@@ -3,374 +3,213 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Valentine Letter 💌</title>
+  <title>Blue Valentine Slides 💙</title>
   <style>
+    :root{
+      --bg1:#061a3a;
+      --bg2:#0b2b6b;
+      --card: rgba(255,255,255,.10);
+      --card2: rgba(255,255,255,.14);
+      --border: rgba(255,255,255,.18);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --accent:#5cc8ff;
+    }
+    *{ box-sizing:border-box; }
     body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #ffe0ec, #ffd1dc 35%, #f6b8c8);
-      overflow:hidden;
-    }
-
-    .wrap{ width:min(680px, 94vw); padding: 20px 0; }
-
-    .topbar{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      justify-content:center; margin-bottom:14px;
-    }
-    input{
-      flex:1 1 190px;
-      border-radius: 12px; border:1px solid #f1b6c6;
-      padding:10px 12px; outline:none;
-      background:#fff;
-      font-size:14px;
-    }
-    textarea{
-      width:100%;
-      border-radius: 14px;
-      border:1px solid #f1b6c6;
-      padding:12px 12px;
-      outline:none;
-      resize: vertical;
-      min-height: 120px;
-      font-family: inherit;
-      font-size: 15px;
-      line-height: 1.5;
-      background:#fff;
-      margin-top:10px;
-    }
-    button{
-      border:0; border-radius: 12px;
-      padding: 10px 14px; cursor:pointer;
-      background:#ff4d7d; color:white; font-weight:700;
-      font-size:14px;
-      box-shadow: 0 10px 25px rgba(255,77,125,.25);
-    }
-
-    .hint{
-      text-align:center;
-      opacity:.8;
-      font-size:12px;
-      margin: 8px 0 14px;
-    }
-
-    /* Envelope Scene */
-    .scene{
-      position:relative;
-      perspective: 1200px;
+      margin:0;
+      min-height:100vh;
       display:grid;
       place-items:center;
-      padding: 10px 0 30px;
-    }
-
-    .envelope{
-      position:relative;
-      width:min(560px, 92vw);
-      height: 340px;
-      transform-style: preserve-3d;
-      cursor:pointer;
-      user-select:none;
-      transition: transform .6s ease;
-    }
-
-    /* Envelope base */
-    .env-base{
-      position:absolute; inset:0;
-      border-radius: 22px;
-      background: rgba(255,255,255,.9);
-      border: 1px solid rgba(255,255,255,.7);
-      box-shadow: 0 18px 60px rgba(0,0,0,.15);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(92,200,255,.25), transparent 60%),
+        radial-gradient(700px 500px at 80% 15%, rgba(120,110,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 50% 100%, rgba(92,200,255,.12), transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
       overflow:hidden;
     }
 
-    /* Decorative diagonal */
-    .env-base::before{
-      content:"";
-      position:absolute; inset:-80px -120px auto auto;
-      width: 420px; height: 420px;
-      transform: rotate(35deg);
-      background: linear-gradient(135deg, rgba(255,77,125,.22), rgba(255,255,255,0));
+    .frame{
+      width:min(980px, 94vw);
+      padding:16px;
     }
 
-    /* Flap (top triangle) */
-    .flap{
-      position:absolute;
-      left: 50%;
-      top: 12px;
-      width: 92%;
-      height: 55%;
-      transform: translateX(-50%);
-      transform-origin: top;
-      transform-style: preserve-3d;
-      transition: transform .7s cubic-bezier(.2,.8,.2,1);
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.10));
-    }
-    .flap::before{
-      content:"";
-      position:absolute; inset:0;
-      background: rgba(255,255,255,.95);
-      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.7);
-    }
-
-    /* Seal */
-    .seal{
-      position:absolute;
-      left:50%; top: 160px;
-      transform: translateX(-50%);
-      width: 66px; height: 66px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, #ff9db8, #ff4d7d);
-      box-shadow: 0 14px 30px rgba(255,77,125,.35);
-      display:grid; place-items:center;
-      font-size: 26px;
-      color:#fff;
-      border: 2px solid rgba(255,255,255,.65);
-      transition: transform .45s ease, opacity .3s ease;
-    }
-
-    /* Letter */
-    .letter{
-      position:absolute;
-      left:50%;
-      bottom: 26px;
-      transform: translateX(-50%);
-      width: 86%;
-      height: 82%;
-      border-radius: 18px;
-      background: #fff;
-      border: 1px solid rgba(255,122,161,.45);
-      box-shadow: 0 18px 45px rgba(0,0,0,.12);
-      overflow:hidden;
-
-      transform-origin: bottom;
-      transform: translateX(-50%) translateY(62%) scale(.98);
-      transition: transform .85s cubic-bezier(.2,.9,.2,1);
-    }
-
-    .paper{
-      height:100%;
-      padding: 18px 18px 14px;
+    .toolbar{
       display:flex;
-      flex-direction:column;
       gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
     }
-    .paper h1{
-      margin:0;
-      font-size: 22px;
+
+    .inputs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
     }
-    .paper p{
-      margin:0;
-      line-height:1.65;
-      font-size: 15px;
+
+    input{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      outline:none;
+      min-width: 220px;
     }
-    .line{
-      height:1px;
-      background: linear-gradient(90deg, rgba(255,77,125,.0), rgba(255,77,125,.55), rgba(255,77,125,.0));
-      margin: 4px 0;
-    }
-    .sig{
-      margin-top:auto;
+    input::placeholder{ color: rgba(255,255,255,.55); }
+
+    .btns{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
       font-weight:700;
     }
-    .tofrom{
-      opacity:.8;
-      font-size: 13px;
-      margin-top: 2px;
+    button.primary{
+      background: linear-gradient(135deg, rgba(92,200,255,.25), rgba(255,255,255,.06));
+      border-color: rgba(92,200,255,.35);
+    }
+    button:active{ transform: translateY(1px); }
+
+    .deck{
+      position:relative;
+      height: min(62vh, 560px);
+      border-radius: 18px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      box-shadow: 0 22px 70px rgba(0,0,0,.35);
+      overflow:hidden;
     }
 
-    /* Open state */
-    .open .flap{
-      transform: translateX(-50%) rotateX(165deg);
-    }
-    .open .letter{
-      transform: translateX(-50%) translateY(-10%) scale(1.0);
-    }
-    .open .seal{
-      transform: translateX(-50%) scale(.85);
-      opacity: .75;
-    }
-
-    /* Floating hearts */
-    .float{
-      position: fixed; bottom:-40px;
-      font-size: 22px; opacity:.35;
-      animation: up 6s linear infinite;
-      user-select:none; pointer-events:none;
-    }
-    @keyframes up{
-      0%{ transform: translateY(0) translateX(0); }
-      100%{ transform: translateY(-110vh) translateX(30px); opacity:0; }
+    .slide{
+      position:absolute;
+      inset:0;
+      padding: 34px 34px 26px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:14px;
+      opacity:0;
+      transform: translateX(40px);
+      transition: opacity .35s ease, transform .35s ease;
     }
 
-    .small{
-      text-align:center;
-      opacity:.75;
-      font-size:12px;
+    .slide.active{
+      opacity:1;
+      transform: translateX(0);
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color: var(--muted);
+      font-weight:700;
+      letter-spacing:.3px;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .title{
+      font-size: clamp(28px, 4vw, 44px);
+      line-height:1.08;
+      margin:0;
+    }
+    .body{
+      font-size: clamp(15px, 1.7vw, 18px);
+      line-height:1.7;
+      color: var(--text);
+      max-width: 70ch;
+      margin:0;
+    }
+
+    .card{
       margin-top: 10px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.08);
+    }
+
+    .meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .dots{
+      display:flex; gap:8px; align-items:center;
+    }
+    .dot{
+      width:9px; height:9px; border-radius:999px;
+      background: rgba(255,255,255,.25);
+      border:1px solid rgba(255,255,255,.18);
+      cursor:pointer;
+    }
+    .dot.on{ background: rgba(92,200,255,.75); border-color: rgba(92,200,255,.75); }
+
+    .hint{
+      opacity:.85;
+    }
+
+    /* small floating hearts (subtle) */
+    .h{
+      position:fixed; bottom:-30px;
+      opacity:.25;
+      animation: floatUp 7s linear infinite;
+      user-select:none; pointer-events:none;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,.35));
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(0) translateX(0); }
+      to{ transform: translateY(-115vh) translateX(22px); opacity:0; }
     }
 
     @media (prefers-reduced-motion: reduce){
-      .flap,.letter,.envelope,.seal{ transition:none !important; }
-      .float{ display:none; }
+      .slide{ transition:none; }
+      .h{ display:none; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <input id="to" placeholder="Untuk (nama)" value="Zenith Tiara Aulia" />
-      <input id="from" placeholder="Dari (nama)" value="aku" />
-      <button id="make" type="button">Simpan ke link</button>
-      <button id="copy" type="button">Copy link</button>
-    </div>
-
-    <textarea id="customMsg" spellcheck="false">Nggak semua cerita harus berakhir bersama untuk tetap berarti.
-Makasih udah pernah jadi rumah, walau sebentar.
-Semoga kamu selalu dicintai dengan cara yang kamu pantas dapatkan. 💘</textarea>
-
-    <div class="hint">Klik amplopnya untuk membuka/menutup surat 💌</div>
-
-    <div class="scene">
-      <div class="envelope" id="envelope" role="button" aria-label="Buka surat" tabindex="0">
-        <div class="env-base"></div>
-        <div class="flap"></div>
-        <div class="seal">❤</div>
-
-        <div class="letter" aria-live="polite">
-          <div class="paper">
-            <h1>Happy Valentine’s Day 💘</h1>
-            <div class="tofrom"><b>Untuk:</b> <span id="toText">Zenith Tiara Aulia</span></div>
-            <div class="line"></div>
-            <p id="msgText"></p>
-            <div class="line"></div>
-            <p class="sig"><b>Dari:</b> <span id="fromText">aku</span></p>
-          </div>
-        </div>
+  <div class="frame">
+    <div class="toolbar">
+      <div class="inputs">
+        <input id="to" value="Zenith Tiara Aulia" placeholder="Untuk (nama)" />
+        <input id="from" value="aku" placeholder="Dari (nama)" />
+      </div>
+      <div class="btns">
+        <button id="prev">◀ Prev</button>
+        <button id="next" class="primary">Next ▶</button>
+        <button id="copy">Copy link</button>
       </div>
     </div>
 
-    <div class="small">Tip: Edit nama & pesan → klik “Simpan ke link” → “Copy link” → kirim.</div>
-  </div>
-
-  <script>
-    // Floating hearts
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.className = 'float';
-      el.textContent = Math.random() > 0.5 ? '💖' : '💘';
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (4 + Math.random()*4) + 's';
-      document.body.appendChild(el);
-      setTimeout(()=> el.remove(), 8000);
-    }, 350);
-
-    const qs = new URLSearchParams(location.search);
-    const to = document.getElementById('to');
-    const from = document.getElementById('from');
-    const customMsg = document.getElementById('customMsg');
-    const toText = document.getElementById('toText');
-    const fromText = document.getElementById('fromText');
-    const msgText = document.getElementById('msgText');
-    const envelope = document.getElementById('envelope');
-
-    const defaultMsg =
-`Nggak semua cerita harus berakhir bersama untuk tetap berarti.
-Makasih udah pernah jadi rumah, walau sebentar.
-Semoga kamu selalu dicintai dengan cara yang kamu pantas dapatkan. 💘`;
-
-    function esc(s){
-      return (s ?? '').toString()
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;');
-    }
-
-    // ✅ BUGFIX: bersihkan pesan dari baris "Tip:" (biar nggak ikut masuk ke surat/link)
-    function cleanMsg(m){
-      return (m ?? '')
-        .toString()
-        .replace(/^\s*tip\s*:.*$/gmi, '') // hapus baris Tip:
-        .trim();
-    }
-
-    function render(){
-      const t = to.value.trim() || 'kamu';
-      const f = from.value.trim() || 'aku';
-
-      const raw = customMsg.value.trim() || defaultMsg;
-      const m = cleanMsg(raw) || defaultMsg;
-
-      toText.textContent = t;
-      fromText.textContent = f;
-
-      msgText.innerHTML = m.split('\n').map(line => esc(line)).join('<br/>');
-    }
-
-    function applyFromURL(){
-      const t = qs.get('to');
-      const f = qs.get('from');
-      const m = qs.get('msg');
-      const open = qs.get('open');
-
-      if (t) to.value = t;
-      if (f) from.value = f;
-      if (m) customMsg.value = cleanMsg(m) || defaultMsg;
-
-      render();
-
-      if (open === '1') envelope.classList.add('open');
-
-      // kalau link lama kebawa "Tip:", langsung bersihin URL-nya juga
-      saveToURL();
-    }
-
-    function saveToURL(){
-      render();
-      const url = new URL(location.href);
-      url.searchParams.set('to', to.value.trim() || 'kamu');
-      url.searchParams.set('from', from.value.trim() || 'aku');
-
-      const raw = customMsg.value.trim() || defaultMsg;
-      url.searchParams.set('msg', cleanMsg(raw) || defaultMsg);
-
-      url.searchParams.set('open', envelope.classList.contains('open') ? '1' : '0');
-      history.replaceState({}, '', url);
-    }
-
-    // Toggle open/close
-    function toggleEnvelope(){
-      envelope.classList.toggle('open');
-      saveToURL();
-    }
-
-    envelope.addEventListener('click', toggleEnvelope);
-    envelope.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleEnvelope();
-      }
-    });
-
-    document.getElementById('make').onclick = saveToURL;
-
-    document.getElementById('copy').onclick = async () => {
-      try{
-        saveToURL();
-        await navigator.clipboard.writeText(location.href);
-        alert('Link berhasil di-copy! ✅');
-      }catch(e){
-        prompt('Copy manual link ini:', location.href);
-      }
-    };
-
-    // Live preview
-    to.addEventListener('input', render);
-    from.addEventListener('input', render);
-    customMsg.addEventListener('input', render);
-
-    applyFromURL();
-  </script>
-</body>
-</html>
+    <div class="deck" id="deck" aria-li
